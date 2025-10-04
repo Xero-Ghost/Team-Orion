@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from django.db.models import Sum, Count, Q
+from django.db.models import Sum, Count, Q, F
 from expenses.models import Expense
 from users.models import CustomUser
 
