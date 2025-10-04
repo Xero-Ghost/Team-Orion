@@ -1,31 +1,50 @@
-// employee-dashboard.js (Example)
 import { Api } from './api.js';
+import { Auth } from './auth.js';
 import { Utils } from './utils.js';
+import { Modal } from './modal.js';
+import { Notification } from './notification.js';
 
-document.addEventListener('DOMContentLoaded', async () => {
-    try {
-        const stats = await Api.getEmployeeDashboardStats();
+document.addEventListener('DOMContentLoaded', () => {
+    Auth.checkAuthState();
+
+    const userTableBody = document.getElementById('userTableBody');
+    const addUserBtn = document.getElementById('addUserBtn');
+
+    const renderUsers = async () => {
+        if (!userTableBody) return;
         
-        // Update dashboard cards
-        document.getElementById('totalSubmitted').textContent = `$${stats.totalSubmitted.toFixed(2)}`;
-        document.getElementById('pendingCount').textContent = stats.pendingCount;
-        // ... and so on
+        userTableBody.innerHTML = '<tr><td colspan="6" class="table-loading">Loading users...</td></tr>';
+        
+        try {
+            // This call will now work correctly
+            const users = await Api.getAllUsers();
 
-        // Populate recent expenses table
-        const recentExpensesBody = document.getElementById('recentExpensesBody');
-        recentExpensesBody.innerHTML = '';
-        stats.recentExpenses.forEach(expense => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${expense.date}</td>
-                <td>$${expense.amount}</td>
-                <td>${Utils.escapeHTML(expense.category)}</td>
-                <td><span class="badge badge-${expense.status.toLowerCase()}">${Utils.escapeHTML(expense.status)}</span></td>
-                <td><a href="/common/expense-details.html?id=${expense.id}">View</a></td>
-            `;
-            recentExpensesBody.appendChild(tr);
-        });
-    } catch (error) {
-        console.error("Failed to load dashboard data:", error);
-    }
+            userTableBody.innerHTML = '';
+            if (users && users.length) {
+                users.forEach(user => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${Utils.escapeHTML(user.first_name)}</td>
+                        <td><span class="role-badge ${user.role.toLowerCase()}">${Utils.escapeHTML(user.role)}</span></td>
+                        <td>${Utils.escapeHTML(user.email)}</td>
+                        <td><span class="${user.is_active ? 'text-success' : 'text-danger'}">${user.is_active ? 'Active' : 'Inactive'}</span></td>
+                        <td class="action-buttons">
+                            <button class="action-btn edit" title="Edit">✏️</button>
+                            <button class="action-btn delete" title="Delete">🗑️</button>
+                        </td>
+                    `;
+                    userTableBody.appendChild(tr);
+                });
+            } else {
+                userTableBody.innerHTML = '<tr><td colspan="6" class="table-empty">No users found.</td></tr>';
+            }
+        } catch (error) {
+            userTableBΩody.innerHTML = '<tr><td colspan="6" class="table-empty text-danger">Failed to load users.</td></tr>';
+            Notification.showToast('Could not load user data.', 'error');
+        }
+    };
+
+    // Add event listeners for modals, etc. here
+
+    renderUsers();
 });

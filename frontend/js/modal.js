@@ -1,9 +1,6 @@
-/**
- * modal.js
- * A reusable module for creating, showing, and hiding modal dialogs dynamically.
- */
+import { Utils } from './utils.js'; // Assuming you have a utils.js for sanitizeHTML
 
-const Modal = {
+export const Modal = {
     show(title, bodyHtml, footerHtml) {
         const modalContainer = document.getElementById('modal-container');
         if (!modalContainer) {
@@ -11,7 +8,7 @@ const Modal = {
             return;
         }
 
-        const sanitizedTitle = typeof sanitizeHTML === 'function' ? sanitizeHTML(title) : title;
+        const sanitizedTitle = Utils.escapeHTML(title);
 
         const modalTemplate = `
             <div class="modal-backdrop show">
@@ -55,15 +52,9 @@ const Modal = {
     /**
      * Shows a pre-styled confirmation modal.
      * @param {object} config - Configuration object.
-     * @param {string} config.title - The title of the modal.
-     * @param {string} config.message - The body text of the modal.
-     * @param {string} [config.confirmText='Confirm'] - Text for the confirm button.
-     * @param {string} [config.cancelText='Cancel'] - Text for the cancel button.
-     * @param {string} [config.confirmButtonClass='btn-primary'] - CSS class for the confirm button.
-     * @param {function} config.onConfirm - Callback function executed when confirm is clicked.
      */
     showConfirmation({ title, message, confirmText = 'Confirm', cancelText = 'Cancel', confirmButtonClass = 'btn-primary', onConfirm }) {
-        const sanitizedMessage = typeof sanitizeHTML === 'function' ? sanitizeHTML(message) : message;
+        const sanitizedMessage = Utils.escapeHTML(message);
         const body = `<p>${sanitizedMessage}</p>`;
         const footer = `
             <button class="btn btn-secondary" id="modalCancelBtn">${cancelText}</button>
@@ -78,4 +69,3 @@ const Modal = {
         document.getElementById('modalCancelBtn').addEventListener('click', () => this.hide());
     }
 };
-

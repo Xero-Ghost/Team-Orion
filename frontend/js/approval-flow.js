@@ -1,3 +1,7 @@
+import { Auth } from './auth.js';
+import { Api } from './api.js';
+import { Notification } from './notification.js';
+
 /**
  * approval-flow.js
  * Handles the logic for the approval-flow.html page, making the

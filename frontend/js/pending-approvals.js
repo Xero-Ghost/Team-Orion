@@ -1,4 +1,10 @@
+import { Api } from './api.js';
+import { Utils } from './utils.js';
+import { Notification } from './notification.js';
+import { Auth } from './auth.js';
+
 document.addEventListener('DOMContentLoaded', () => {
+    Auth.checkAuthState();
     const approvalQueue = document.getElementById('approvalQueue');
 
     const renderApprovalQueue = async () => {
@@ -6,80 +12,67 @@ document.addEventListener('DOMContentLoaded', () => {
         
         approvalQueue.innerHTML = '<div class="card"><div class="card-body text-center">Loading pending approvals...</div></div>';
 
-        const pendingExpenses = await Api.getPendingExpenses(); // Using mock API
+        try {
+            // This now calls the real API endpoint
+            const pendingExpenses = await Api.getExpenses({ status: 'Pending' });
 
-        if (pendingExpenses && pendingExpenses.length > 0) {
-            approvalQueue.innerHTML = ''; // Clear loading message
-            pendingExpenses.forEach(expense => {
-                const card = document.createElement('div');
-                card.className = 'card mb-md approval-card';
-                card.innerHTML = `
-                    <div class="card-body">
-                        <div class="approval-card-header">
-                            <span class="font-semibold">${Utils.escapeHTML(expense.employee)}</span>
-                            <span class="text-gray-600">${expense.date}</span>
-                        </div>
-                        <div class="approval-card-body">
-                            <div class="expense-amount">
-                                <span class="amount">$${expense.amount.toFixed(2)}</span>
-                                <span class="category">${Utils.escapeHTML(expense.category)}</span>
+            if (pendingExpenses && pendingExpenses.length > 0) {
+                approvalQueue.innerHTML = '';
+                pendingExpenses.forEach(expense => {
+                    const card = document.createElement('div');
+                    card.className = 'card mb-md approval-card';
+                    card.innerHTML = `
+                        <div class="card-body">
+                            <div class="approval-card-header">
+                                <span class="font-semibold">${Utils.escapeHTML(expense.employeeName)}</span>
+                                <span class="text-gray-600">${expense.date}</span>
                             </div>
-                            <p class="description">${Utils.escapeHTML(expense.description)}</p>
-                        </div>
-                        <div class="approval-card-footer">
-                            <span class="pending-days">${expense.pendingDays} days pending</span>
-                            <div class="action-buttons">
-                                <button class="btn btn-sm btn-danger" data-id="${expense.id}" data-action="reject">Reject</button>
-                                <button class="btn btn-sm btn-success" data-id="${expense.id}" data-action="approve">Approve</button>
-                                <a href="../common/expense-details.html?id=${expense.id}" class="btn btn-sm btn-outline">Details</a>
+                            <div class="approval-card-body">
+                                <div class="expense-amount">
+                                    <span class="amount">$${expense.amount}</span>
+                                    <span class="category">${Utils.escapeHTML(expense.category)}</span>
+                                </div>
+                                <p class="description">${Utils.escapeHTML(expense.description)}</p>
+                            </div>
+                            <div class="approval-card-footer">
+                                <div class="action-buttons">
+                                    <button class="btn btn-sm btn-danger" data-id="${expense.id}" data-action="reject">Reject</button>
+                                    <button class="btn btn-sm btn-success" data-id="${expense.id}" data-action="approve">Approve</button>
+                                    <a href="../common/expense-details.html?id=${expense.id}" class="btn btn-sm btn-outline">Details</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                `;
-                approvalQueue.appendChild(card);
-            });
-        } else {
-            approvalQueue.innerHTML = '<div class="card"><div class="card-body text-center">No pending approvals.</div></div>';
+                    `;
+                    approvalQueue.appendChild(card);
+                });
+            } else {
+                approvalQueue.innerHTML = '<div class="card"><div class="card-body text-center">No pending approvals.</div></div>';
+            }
+        } catch (error) {
+            approvalQueue.innerHTML = '<div class="card"><div class="card-body text-center text-danger">Failed to load approvals.</div></div>';
         }
     };
 
     // --- EVENT LISTENERS ---
-    if (approvalQueue) {
-        approvalQueue.addEventListener('click', async (e) => {
-            const target = e.target;
-            const action = target.getAttribute('data-action');
-            const expenseId = target.getAttribute('data-id');
+    approvalQueue?.addEventListener('click', async (e) => {
+        const button = e.target.closest('button[data-action]');
+        if (!button) return;
 
-            if (!action || !expenseId) return;
+        const action = button.dataset.action;
+        const expenseId = button.dataset.id;
+        button.disabled = true;
+        
+        const newStatus = action === 'approve' ? 'Approved' : 'Rejected';
 
-            if (action === 'approve') {
-                target.textContent = 'Approving...';
-                target.disabled = true;
-                const result = await Api.approveExpense(expenseId);
-                if (result.success) {
-                    Notification.show('Expense approved successfully!', 'success');
-                    renderApprovalQueue(); // Re-render the list
-                } else {
-                    Notification.show('Failed to approve expense.', 'error');
-                    target.textContent = 'Approve';
-                    target.disabled = false;
-                }
-            } else if (action === 'reject') {
-                 target.textContent = 'Rejecting...';
-                target.disabled = true;
-                const result = await Api.rejectExpense(expenseId);
-                 if (result.success) {
-                    Notification.show('Expense rejected.', 'success');
-                    renderApprovalQueue(); // Re-render the list
-                } else {
-                    Notification.show('Failed to reject expense.', 'error');
-                    target.textContent = 'Reject';
-                    target.disabled = false;
-                }
-            }
-        });
-    }
-
+        try {
+            await Api.updateExpenseStatus(expenseId, newStatus);
+            Notification.showToast(`Expense has been ${newStatus}.`, 'success');
+            renderApprovalQueue(); // Re-render the list
+        } catch (error) {
+            Notification.showToast('Action failed. Please try again.', 'error');
+            button.disabled = false;
+        }
+    });
 
     // --- INITIALIZE ---
     renderApprovalQueue();

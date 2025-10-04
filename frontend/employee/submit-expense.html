@@ -1,126 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Submit Expense - Expense Management">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Submit Expense - Expense Management" />
     <title>Submit Expense - Expense Management</title>
-    <link rel="stylesheet" href="../css/styles.css">
-    <link rel="stylesheet" href="../css/dashboard.css">
-    <link rel="stylesheet" href="../css/forms.css">
-    <link rel="stylesheet" href="../css/modals.css">
-</head>
-<body>
-<!-- Header -->
-<header id="main-header" class="header">
-    <div class="header-left">
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="../css/dashboard.css" />
+    <link rel="stylesheet" href="../css/forms.css" />
+    <link rel="stylesheet" href="../css/modals.css" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header id="main-header" class="header">
+      <div class="header-left">
         <button class="menu-toggle" id="menuToggle">
-            <span class="hamburger"></span>
+          <span class="hamburger"></span>
         </button>
         <h2 class="company-name" id="companyName">Company Name</h2>
-    </div>
+      </div>
 
-    <div class="header-right">
+      <div class="header-right">
         <button class="notification-btn" id="notificationBtn">
-            <span class="notification-icon">🔔</span>
-            <span class="notification-badge" id="notificationBadge">2</span>
+          <span class="notification-icon">🔔</span>
+          <span class="notification-badge" id="notificationBadge">2</span>
         </button>
         <div class="user-profile-dropdown">
-            <button class="user-profile-btn" id="userProfileBtn">
-                <div class="user-avatar">
-                    <span id="userInitials">EM</span>
-                </div>
-                <span class="user-name" id="userName">Employee User</span>
-                <span class="dropdown-arrow">▼</span>
-            </button>
-            <div class="dropdown-menu" id="profileDropdown">
-                <a href="../common/settings.html" class="dropdown-item">Settings</a>
-                <a href="#" class="dropdown-item" id="logoutBtn">Logout</a>
+          <button class="user-profile-btn" id="userProfileBtn">
+            <div class="user-avatar">
+              <span id="userInitials">EM</span>
             </div>
+            <span class="user-name" id="userName">Employee User</span>
+            <span class="dropdown-arrow">▼</span>
+          </button>
+          <div class="dropdown-menu" id="profileDropdown">
+            <a href="../common/settings.html" class="dropdown-item">Settings</a>
+            <a href="#" class="dropdown-item" id="logoutBtn">Logout</a>
+          </div>
         </div>
-    </div>
-</header>
+      </div>
+    </header>
 
-<!-- UPDATED: The sidebar is now just an empty container for the dynamic script -->
-<aside id="sidebar" class="sidebar"></aside>
+    <!-- UPDATED: The sidebar is now just an empty container for the dynamic script -->
+    <aside id="sidebar" class="sidebar"></aside>
 
-<!-- Main Content -->
-<main id="main-content" class="main-content">
-    <section id="submit-expense-section" class="content-section active">
+    <!-- Main Content -->
+    <main id="main-content" class="main-content">
+      <section id="submit-expense-section" class="content-section active">
         <div class="section-header">
-            <h1>Submit New Expense</h1>
+          <h1>Submit New Expense</h1>
         </div>
 
         <div class="card">
-            <div class="card-body">
-                <form id="expenseForm" class="grid-form">
-                    <div class="form-group">
-                        <label for="amount">Amount *</label>
-                        <input type="number" id="amount" name="amount" required placeholder="0.00">
-                    </div>
-                    <div class="form-group">
-                        <label for="currency">Currency *</label>
-                        <select id="currency" name="currency" required>
-                            <option value="USD">USD - United States Dollar</option>
-                            <option value="EUR">EUR - Euro</option>
-                            <option value="GBP">GBP - British Pound</option>
-                        </select>
-                    </div>
-                    <div class="form-group full-width">
-                        <label for="convertedAmount">Converted Amount (USD)</label>
-                        <input type="text" id="convertedAmount" name="convertedAmount" readonly placeholder="Auto-calculated">
-                    </div>
-                    <div class="form-group">
-                        <label for="category">Category *</label>
-                        <select id="category" name="category" required>
-                            <option value="">Select a category</option>
-                            <option value="travel">Travel</option>
-                            <option value="food">Food</option>
-                            <option value="accommodation">Accommodation</option>
-                            <option value="office">Office Supplies</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="expenseDate">Expense Date *</label>
-                        <input type="date" id="expenseDate" name="expenseDate" required>
-                    </div>
-                    <div class="form-group full-width">
-                        <label for="description">Description *</label>
-                        <textarea id="description" name="description" rows="4" required placeholder="Add a description for your expense (e.g., Taxi from airport, Team lunch)"></textarea>
-                    </div>
-                    <div class="form-group full-width">
-                        <label for="receipts">Upload Receipts</label>
-                        <div class="file-upload-area" id="fileUploadArea">
-                            <p>Drag & drop files here or click to browse</p>
-                            <input type="file" id="receiptUpload" name="receipts" multiple hidden>
-                        </div>
-                        <small class="input-hint">Max file size: 5MB per file. Supported formats: JPG, PNG, PDF.</small>
-                        <div id="file-preview-container" class="file-preview-container"></div>
-                    </div>
+          <div class="card-body">
+            <form id="expenseForm" class="grid-form">
+              <div class="form-group">
+                <label for="amount">Amount *</label>
+                <input
+                  type="number"
+                  id="amount"
+                  name="amount"
+                  required
+                  placeholder="0.00"
+                />
+              </div>
+              <div class="form-group">
+                <label for="currency">Currency *</label>
+                <select id="currency" name="currency" required>
+                  <option value="USD">USD - United States Dollar</option>
+                  <option value="EUR">EUR - Euro</option>
+                  <option value="GBP">GBP - British Pound</option>
+                </select>
+              </div>
+              <div class="form-group full-width">
+                <label for="convertedAmount">Converted Amount (USD)</label>
+                <input
+                  type="text"
+                  id="convertedAmount"
+                  name="convertedAmount"
+                  readonly
+                  placeholder="Auto-calculated"
+                />
+              </div>
+              <div class="form-group">
+                <label for="category">Category *</label>
+                <select id="category" name="category" required>
+                  <option value="">Select a category</option>
+                  <option value="Travel">Travel</option>
+                  <option value="Food">Food</option>
+                  <option value="Accommodation">Accommodation</option>
+                  <option value="Office">Office Supplies</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="expenseDate">Expense Date *</label>
+                <input type="date" id="expenseDate" name="date" required />
+              </div>
+              <div class="form-group full-width">
+                <label for="description">Description *</label>
+                <textarea
+                  id="description"
+                  name="description"
+                  rows="4"
+                  required
+                  placeholder="Add a description..."
+                ></textarea>
+              </div>
+              <div class="form-group full-width">
+                <label for="receipts">Upload Receipt</label>
+                <div class="file-upload-area" id="fileUploadArea">
+                  <p>Drag & drop a file here or click to browse</p>
+                  <input type="file" id="receiptUpload" name="receipt" hidden />
+                </div>
+                <small class="input-hint"
+                  >Max file size: 5MB. Supported formats: JPG, PNG, PDF.</small
+                >
+                <div
+                  id="file-preview-container"
+                  class="file-preview-container"
+                ></div>
+              </div>
 
-                    <div class="form-actions full-width">
-                        <button type="button" class="btn btn-secondary" id="saveDraftBtn">Save as Draft</button>
-                        <button type="submit" class="btn btn-primary" id="submitExpenseBtn">Submit Expense</button>
-                    </div>
-                </form>
-            </div>
+              <div class="form-actions full-width">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  id="saveDraftBtn"
+                >
+                  Save as Draft
+                </button>
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  id="submitExpenseBtn"
+                >
+                  Submit Expense
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-    </section>
-</main>
+      </section>
+    </main>
 
-<!-- Modals & Toasts -->
-<div id="modal-container"></div>
-<div id="toast-container"></div>
+    <!-- Modals & Toasts -->
+    <div id="modal-container"></div>
+    <div id="toast-container"></div>
 
-<!-- UPDATED: Scripts for dynamic sidebar and page logic -->
-<script type="module" src="../js/utils.js"></script>
-<script type="module" src="../js/storage.js"></script>
-<script type="module" src="../js/api.js"></script>
-<script type="module" src="../js/auth.js"></script>
-<script type="module" src="../js/sidebar.js"></script> <!-- The new smart sidebar -->
-<script type="module" src="../js/app.js"></script> <!-- Initializes header and sidebar -->
-<script type="module" src="../js/modal.js"></script>
-<script type="module" src="../js/notification.js"></script>
-<script type="module" src="../js/submit-expense.js"></script> <!-- Page-specific script -->
-</body>
+    <!-- UPDATED: Scripts for dynamic sidebar and page logic -->
+    <script type="module" src="../js/utils.js"></script>
+    <script type="module" src="../js/storage.js"></script>
+    <script type="module" src="../js/api.js"></script>
+    <script type="module" src="../js/auth.js"></script>
+    <script type="module" src="../js/sidebar.js"></script>
+    <!-- The new smart sidebar -->
+    <script type="module" src="../js/app.js"></script>
+    <!-- Initializes header and sidebar -->
+    <script type="module" src="../js/modal.js"></script>
+    <script type="module" src="../js/notification.js"></script>
+    <script type="module" src="../js/submit-expense.js"></script>
+    <!-- Page-specific script -->
+  </body>
 </html>
