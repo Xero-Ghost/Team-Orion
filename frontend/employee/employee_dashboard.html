@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Employee Dashboard - Expense Management">
+    <title>Employee Dashboard - Expense Management</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/tables.css">
+    <link rel="stylesheet" href="../css/modals.css">
+</head>
+<body>
+<!-- Header -->
+<header id="main-header" class="header">
+    <div class="header-left">
+        <button class="menu-toggle" id="menuToggle">
+            <span class="hamburger"></span>
+        </button>
+        <h2 class="company-name" id="companyName">Company Name</h2>
+    </div>
+
+    <div class="header-right">
+        <button class="notification-btn" id="notificationBtn">
+            <span class="notification-icon">🔔</span>
+            <span class="notification-badge" id="notificationBadge">2</span>
+        </button>
+
+        <div class="user-profile-dropdown">
+            <button class="user-profile-btn" id="userProfileBtn">
+                <div class="user-avatar">
+                    <span id="userInitials">EM</span>
+                </div>
+                <span class="user-name" id="userName">Employee User</span>
+                <span class="dropdown-arrow">▼</span>
+            </button>
+
+            <div class="dropdown-menu" id="profileDropdown">
+                <a href="../common/settings.html" class="dropdown-item">
+                    <span class="icon">⚙️</span>
+                    Settings
+                </a>
+                <a href="#" class="dropdown-item" id="logoutBtn">
+                    <span class="icon">🚪</span>
+                    Logout
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- UPDATED: The sidebar is now just an empty container for the dynamic script -->
+<aside id="sidebar" class="sidebar"></aside>
+
+<!-- Main Content -->
+<main id="main-content" class="main-content">
+    <section id="dashboard-section" class="content-section active">
+        <div class="section-header">
+            <h1>Dashboard</h1>
+        </div>
+
+        <!-- Dashboard Cards -->
+        <div class="dashboard-grid">
+            <div class="stat-card">
+                <div class="stat-content">
+                    <h3 class="stat-value" id="totalSubmitted">$0.00</h3>
+                    <p class="stat-label">Total Submitted This Month</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-content">
+                    <h3 class="stat-value" id="pendingCount">0</h3>
+                    <p class="stat-label">Pending Approvals</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-content">
+                    <h3 class="stat-value" id="approvedAmount">$0.00</h3>
+                    <p class="stat-label">Approved Amount</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-content">
+                    <h3 class="stat-value" id="rejectedCount">0</h3>
+                    <p class="stat-label">Rejected Count</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Submit Section -->
+        <div class="card text-center mt-xl">
+            <div class="card-body">
+                <a href="submit-expense.html" class="btn btn-primary btn-lg">
+                    <span>➕</span> Submit New Expense
+                </a>
+            </div>
+        </div>
+
+        <!-- Recent Expense History -->
+        <div class="card mt-xl">
+            <div class="card-header">
+                <h3 class="card-title">Recent Expense History</h3>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody id="recentExpensesBody">
+                        <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-right mt-md">
+                    <a href="my-expenses.html" class="btn btn-sm btn-outline">View All Expenses</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Modals & Toasts -->
+<div id="modal-container"></div>
+<div id="toast-container"></div>
+
+<!-- UPDATED: Scripts for dynamic sidebar and page logic -->
+<script src="../js/utils.js"></script>
+<script src="../js/storage.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/sidebar.js"></script> <!-- The new smart sidebar -->
+<script src="../js/app.js"></script> <!-- Initializes header and sidebar -->
+<script src="../js/modal.js"></script>
+<script src="../js/notification.js"></script>
+<script src="../js/employee-dashboard.js"></script> <!-- Page-specific script -->
+</body>
+</html>

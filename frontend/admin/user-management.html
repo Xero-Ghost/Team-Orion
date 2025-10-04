@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="User Management - Expense Management System">
+    <title>User Management - Expense Management</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/tables.css">
+    <link rel="stylesheet" href="../css/forms.css">
+    <link rel="stylesheet" href="../css/modals.css">
+</head>
+<body>
+<!-- Header -->
+<header id="main-header" class="header">
+    <div class="header-left">
+        <button class="menu-toggle" id="menuToggle">
+            <span class="hamburger"></span>
+        </button>
+        <h2 class="company-name" id="companyName">Company Name</h2>
+    </div>
+
+    <div class="header-right">
+        <button class="notification-btn" id="notificationBtn">
+            <span class="notification-icon">🔔</span>
+            <span class="notification-badge" id="notificationBadge">3</span>
+        </button>
+
+        <div class="user-profile-dropdown">
+            <button class="user-profile-btn" id="userProfileBtn">
+                <div class="user-avatar">
+                    <span id="userInitials">AD</span>
+                </div>
+                <span class="user-name" id="userName">Admin User</span>
+                <span class="dropdown-arrow">▼</span>
+            </button>
+
+            <div class="dropdown-menu" id="profileDropdown">
+                <a href="../common/settings.html" class="dropdown-item">
+                    <span class="icon">⚙️</span>
+                    Settings
+                </a>
+                <a href="#" class="dropdown-item" id="logoutBtn">
+                    <span class="icon">🚪</span>
+                    Logout
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- UPDATED: The sidebar is now just an empty container for the dynamic script -->
+<aside id="sidebar" class="sidebar"></aside>
+
+<!-- Main Content -->
+<main id="main-content" class="main-content">
+    <section id="user-management-section" class="content-section active">
+        <div class="section-header">
+            <h1>User Management</h1>
+            <button class="btn btn-primary" id="addUserBtn">
+                <span>➕</span> Add User
+            </button>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <!-- Search and Filter -->
+                <div class="table-controls">
+                    <input type="text" class="search-input" id="userSearch" placeholder="Search by name, email, or department...">
+                </div>
+
+                <!-- User Table -->
+                <div class="table-responsive">
+                    <table class="data-table user-table" id="userTable">
+                        <thead>
+                        <tr>
+                            <th class="sortable">User Name</th>
+                            <th class="sortable">Role</th>
+                            <th class="sortable">Manager</th>
+                            <th class="sortable">Email</th>
+                            <th class="sortable">Department</th>
+                            <th class="sortable">Expense Used</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody id="userTableBody">
+                        <!-- User data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination">
+                    <div class="pagination-info">
+                        Showing <span id="userStart">1</span>-<span id="userEnd">0</span> of <span id="userTotal">0</span> users
+                    </div>
+                    <div class="pagination-controls">
+                        <select class="filter-select" id="rowsPerPage">
+                            <option value="25">25 per page</option>
+                            <option value="50">50 per page</option>
+                            <option value="100">100 per page</option>
+                        </select>
+                        <button class="btn btn-sm btn-outline" id="prevPage">Previous</button>
+                        <button class="btn btn-sm btn-outline" id="nextPage">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Modal placeholder -->
+<div id="modal-container"></div>
+
+<!-- Toast Notifications -->
+<div id="toast-container"></div>
+
+<!-- UPDATED: Scripts for dynamic sidebar and page logic -->
+<script src="../js/utils.js"></script>
+<script src="../js/storage.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/sidebar.js"></script> <!-- The new smart sidebar -->
+<script src="../js/app.js"></script> <!-- Initializes header and sidebar -->
+<script src="../js/modal.js"></script>
+<script src="../js/notification.js"></script>
+<script src="../js/user-management.js"></script> <!-- Page-specific logic -->
+</body>
+</html>

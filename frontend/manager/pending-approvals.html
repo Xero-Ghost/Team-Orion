@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Pending Approvals - Expense Management">
+    <title>Pending Approvals - Expense Management</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/forms.css">
+    <link rel="stylesheet" href="../css/modals.css">
+</head>
+<body>
+<!-- Header -->
+<header id="main-header" class="header">
+    <div class="header-left">
+        <button class="menu-toggle" id="menuToggle">
+            <span class="hamburger"></span>
+        </button>
+        <h2 class="company-name" id="companyName">Company Name</h2>
+    </div>
+
+    <div class="header-right">
+        <button class="notification-btn" id="notificationBtn">
+            <span class="notification-icon">🔔</span>
+            <span class="notification-badge" id="notificationBadge">5</span>
+        </button>
+
+        <div class="user-profile-dropdown">
+            <button class="user-profile-btn" id="userProfileBtn">
+                <div class="user-avatar">
+                    <span id="userInitials">MG</span>
+                </div>
+                <span class="user-name" id="userName">Manager User</span>
+                <span class="dropdown-arrow">▼</span>
+            </button>
+
+            <div class="dropdown-menu" id="profileDropdown">
+                <a href="../common/settings.html" class="dropdown-item">
+                    <span class="icon">⚙️</span>
+                    Settings
+                </a>
+                <a href="#" class="dropdown-item" id="logoutBtn">
+                    <span class="icon">🚪</span>
+                    Logout
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- UPDATED: The sidebar is now just an empty container for the dynamic script -->
+<aside id="sidebar" class="sidebar"></aside>
+
+<!-- Main Content -->
+<main id="main-content" class="main-content">
+    <section id="pending-approvals-section" class="content-section active">
+        <div class="section-header">
+            <h1>Pending Approvals</h1>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="card mb-lg">
+            <div class="card-body">
+                <div class="filter-group">
+                    <select class="filter-select" id="sortBy">
+                        <option value="date">Sort by Date</option>
+                        <option value="amount">Sort by Amount</option>
+                        <option value="priority">Sort by Priority</option>
+                    </select>
+
+                    <select class="filter-select" id="filterCategory">
+                        <option value="">All Categories</option>
+                        <option value="travel">Travel</option>
+                        <option value="food">Food</option>
+                        <option value="accommodation">Accommodation</option>
+                        <option value="office">Office Supplies</option>
+                    </select>
+
+                    <input type="date" class="filter-select" id="filterDate">
+                </div>
+            </div>
+        </div>
+
+        <!-- Approval Queue Cards -->
+        <div class="approval-queue" id="approvalQueue">
+            <!-- Cards will be populated by JavaScript -->
+        </div>
+    </section>
+</main>
+
+<!-- Modals Container -->
+<div id="modal-container"></div>
+
+<!-- Toast Notifications -->
+<div id="toast-container"></div>
+
+<!-- UPDATED: Scripts for dynamic sidebar and page logic -->
+<script src="../js/utils.js"></script>
+<script src="../js/storage.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/sidebar.js"></script> <!-- The new smart sidebar -->
+<script src="../js/app.js"></script> <!-- Initializes header and sidebar -->
+<script src="../js/modal.js"></script>
+<script src="../js/notification.js"></script>
+<script src="../js/pending-approvals.js"></script> <!-- Page-specific script -->
+</body>
+</html>
