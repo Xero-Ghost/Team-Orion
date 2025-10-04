@@ -14,6 +14,7 @@ class Expense(models.Model):
     description = models.TextField()
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Pending')
     date = models.DateField()
+    receipt = models.FileField(upload_to='receipts/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -21,9 +22,13 @@ class Expense(models.Model):
     def employeeName(self):
         return self.employee.first_name
 
-    @property
-    def department(self):
-        return "Engineering" 
+    def __str__(self):
+        return f'{self.employee.email} - {self.amount} {self.currency} - {self.status}'
+
+class ApprovalRule(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.employee.username} - {self.amount} {self.currency} - {self.status}'
+        return self.name

@@ -1,4 +1,5 @@
 from django.db.models import Sum, Count
+from django.db.models.functions import TruncMonth
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAdminUser
@@ -10,29 +11,32 @@ class ExpenseReportView(APIView):
 
     def get(self, request, *args, **kwargs):
         queryset = Expense.objects.all()
-        start_date_str = request.query_params.get('start_date')
-        end_date_str = request.query_params.get('end_date')
-        category = request.query_params.get('category')
-        status_param = request.query_params.get('status')
 
-        if start_date_str:
-            queryset = queryset.filter(date__gte=datetime.strptime(start_date_str, '%Y-%m-%d').date())
-        if end_date_str:
-            queryset = queryset.filter(date__lte=datetime.strptime(end_date_str, '%Y-%m-%d').date())
-        if category:
-            queryset = queryset.filter(category__iexact=category)
-        if status_param:
-            queryset = queryset.filter(status__iexact=status_param)
+        # Apply filters from reports.js
+        start_date = request.query_params.get('dateFrom')
+        end_date = request.query_params.get('dateTo')
+        status = request.query_params.get('status')
+        # 'department' filter would require adding a department field to the User model
 
-        total_amount = queryset.aggregate(Sum('amount'))['amount__sum'] or 0
-        total_expenses = queryset.count()
-        by_category = queryset.values('category').annotate(count=Count('id'), total=Sum('amount')).order_by('-total')
+        if start_date:
+            queryset = queryset.filter(date__gte=start_date)
+        if end_date:
+            queryset = queryset.filter(date__lte=end_date)
+        if status:
+            queryset = queryset.filter(status__iexact=status)
 
-        report_data = {
-            'summary': {
-                'total_amount': round(total_amount, 2),
-                'total_expenses': total_expenses,
+        # Generate data for charts
+        trend_data = queryset.annotate(month=TruncMonth('date')).values('month').annotate(total=Sum('amount')).order_by('month')
+        department_data = queryset.values('employee__first_name').annotate(total=Sum('amount')).order_by('-total') # Simplified to employee for now
+
+        report = {
+            "trend": {
+                "labels": [t['month'].strftime('%b %Y') for t in trend_data],
+                "data": [t['total'] for t in trend_data],
             },
-            'by_category': list(by_category)
+            "department": {
+                "labels": [d['employee__first_name'] for d in department_data],
+                "data": [d['total'] for d in department_data],
+            }
         }
-        return Response(report_data)
+        return Response(report)

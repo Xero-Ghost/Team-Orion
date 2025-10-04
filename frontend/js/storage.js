@@ -1,70 +1,34 @@
-/**
- * storage.js
- * A wrapper module for browser storage (sessionStorage) to handle
- * authentication tokens, user data, and the dashboard URL consistently.
- */
-
-const Storage = {
+export const Storage = {
     storage: window.sessionStorage,
 
-    // --- Internal Helper Methods ---
-    _setItem(key, value) {
-        if (typeof value === 'object') {
-            this.storage.setItem(key, JSON.stringify(value));
-        } else {
-            this.storage.setItem(key, value);
-        }
-    },
-
-    _getItem(key) {
-        return this.storage.getItem(key);
-    },
-
-    // --- Token Management ---
-    setToken(token) {
-        this._setItem('authToken', token);
-    },
-
-    getToken() {
-        return this._getItem('authToken');
-    },
-
-    // --- User Management ---
-    setUser(user) {
-        this._setItem('user', user);
-    },
-
-    getUser() {
-        const user = this._getItem('user');
-        try {
-            return user ? JSON.parse(user) : null;
-        } catch (e) {
-            console.error("Error parsing user data from storage", e);
-            this.clear(); // Clear corrupted data
-            return null;
-        }
-    },
-
-    // --- CRITICAL FIX: Dashboard URL Management ---
-    setDashboardUrl(url) {
-        this._setItem('dashboardUrl', url);
-    },
-
-    getDashboardUrl() {
-        return this._getItem('dashboardUrl');
-    },
-
-    // --- Generic Get/Set for other data ---
     set(key, value) {
-        this._setItem(key, value);
+        const valueToStore = typeof value === 'object' ? JSON.stringify(value) : value;
+        this.storage.setItem(key, valueToStore);
     },
 
     get(key) {
-        return this._getItem(key);
+        const item = this.storage.getItem(key);
+        if (!item) return null;
+        try {
+            // Attempt to parse JSON, fall back to raw string if it fails
+            return JSON.parse(item);
+        } catch (e) {
+            return item;
+        }
     },
 
-    // --- Cleanup ---
+    setToken(token) { this.set('authToken', token); },
+    getToken() { return this.get('authToken'); },
+
+    setUser(user) { this.set('user', user); },
+    getUser() { return this.get('user'); },
+
+    setDashboardUrl(url) { this.set('dashboardUrl', url); },
+    getDashboardUrl() { return this.get('dashboardUrl'); },
+
     clear() {
-        this.storage.clear();
-    }
+        this.storage.removeItem('authToken');
+        this.storage.removeItem('user');
+        this.storage.removeItem('dashboardUrl');
+    },
 };

@@ -5,7 +5,7 @@
  * and required fields.
  */
 
-const Validation = {
+export const Validation = {
     /**
      * Displays an error message for a specific form field.
      * @param {HTMLInputElement} inputElement - The input element with the error.

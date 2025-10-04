@@ -4,10 +4,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 class CustomUserManager(BaseUserManager):
-    """Define a model manager for User model with no username field."""
-
     def _create_user(self, email, password=None, **extra_fields):
-        """Create and save a User with the given email and password."""
         if not email:
             raise ValueError('The given email must be set')
         email = self.normalize_email(email)
@@ -22,24 +19,19 @@ class CustomUserManager(BaseUserManager):
         return self._create_user(email, password, **extra_fields)
 
     def create_superuser(self, email, password=None, **extra_fields):
-        """Create and save a SuperUser with the given email and password."""
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
-        extra_fields.setdefault('role', 'admin') # Superusers are admins by default
-
+        extra_fields.setdefault('role', 'admin')
         if extra_fields.get('is_staff') is not True:
             raise ValueError('Superuser must have is_staff=True.')
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
-
         return self._create_user(email, password, **extra_fields)
 
 
 class CustomUser(AbstractUser):
-    # We don't need a username, email will be our unique identifier
     username = None
     email = models.EmailField(_('email address'), unique=True)
-
     ROLE_CHOICES = (
         ('employee', 'Employee'),
         ('manager', 'Manager'),
@@ -47,9 +39,8 @@ class CustomUser(AbstractUser):
     )
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='employee')
     
-    # Set the email field as the USERNAME_FIELD
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name'] # email and password are required by default
+    REQUIRED_FIELDS = ['first_name']
 
     objects = CustomUserManager()
 
