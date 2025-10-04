@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sign up for Expense Management System">
+    <title>Sign Up - Expense Management</title>
+    <!-- Assuming your original CSS files exist, but adding inline styles for animation -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <style>
+        /* BASE AUTH STYLING (The original color scheme implied by the index.html) */
+        :root {
+            --primary-color: #3498db; /* Light Blue */
+            --secondary-color: #2c3e50; /* Dark Blue/Gray */
+            --auth-bg-start: #2c3e50; /* Darker background for animation */
+            --auth-bg-end: #34495e;
+            --card-bg: white;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .auth-body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, var(--auth-bg-start) 0%, var(--auth-bg-end) 100%);
+            overflow: hidden; /* Important for the flying animation */
+        }
+
+        .auth-container {
+            z-index: 2; /* Keep card above animation layer */
+        }
+
+        .auth-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 450px; /* Slightly wider for the longer form */
+            padding: 40px;
+            box-sizing: border-box;
+        }
+
+        /* FLYING ANIMATION STYLES */
+        .flying-expenses {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1; /* Below the card */
+        }
+
+        .expense-icon {
+            position: absolute;
+            color: rgba(52, 152, 219, 0.5); /* Semi-transparent Blue */
+            font-size: 20px;
+            animation: fly-and-fade linear infinite;
+        }
+
+        @keyframes fly-and-fade {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body class="auth-body">
+<!-- Flying Expenses Background Layer -->
+<div class="flying-expenses" id="flyingExpensesSignup"></div>
+
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h1>Create Company Account</h1>
+            <p>Register as the first admin for your company</p>
+        </div>
+
+        <form id="signupForm" class="auth-form">
+            <!-- Company Information Section -->
+            <div class="form-section">
+                <h3 class="section-title">Company Information</h3>
+
+                <div class="form-group">
+                    <label for="companyName">Company Name <span class="required">*</span></label>
+                    <input type="text" id="companyName" name="companyName" required>
+                    <span class="error-message" id="companyNameError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="country">Country <span class="required">*</span></label>
+                    <select id="country" name="country" required>
+                        <option value="">Select Country</option>
+                    </select>
+                    <span class="error-message" id="countryError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="currency">Currency</label>
+                    <input type="text" id="currency" name="currency" readonly placeholder="Select country first">
+                </div>
+            </div>
+
+            <!-- Admin Account Section -->
+            <div class="form-section">
+                <h3 class="section-title">Admin Account</h3>
+
+                <div class="form-group">
+                    <label for="fullName">Full Name <span class="required">*</span></label>
+                    <input type="text" id="fullName" name="fullName" required>
+                    <span class="error-message" id="fullNameError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email <span class="required">*</span></label>
+                    <input type="email" id="email" name="email" required>
+                    <span class="error-message" id="emailError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password <span class="required">*</span></label>
+                    <div class="password-input-wrapper">
+                        <input type="password" id="password" name="password" required>
+                        <button type="button" class="toggle-password" id="togglePassword">
+                            <span class="eye-icon">👁️</span>
+                        </button>
+                    </div>
+                    <div class="password-strength" id="passwordStrength">
+                        <div class="strength-bar"></div>
+                    </div>
+                    <small class="input-hint">Minimum 8 characters with uppercase, lowercase, number, and special character</small>
+                    <span class="error-message" id="passwordError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password <span class="required">*</span></label>
+                    <div class="password-input-wrapper">
+                        <input type="password" id="confirmPassword" name="confirmPassword" required>
+                        <button type="button" class="toggle-password" id="toggleConfirmPassword">
+                            <span class="eye-icon">👁️</span>
+                        </button>
+                    </div>
+                    <span class="error-message" id="confirmPasswordError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone">
+                </div>
+
+                <div class="form-group">
+                    <label for="department">Department</label>
+                    <input type="text" id="department" name="department">
+                </div>
+            </div>
+
+            <!-- Terms and Conditions -->
+            <div class="form-group checkbox-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <span>I agree to the <a href="#" target="_blank" style="color: #3498db;">Terms & Conditions</a></span>
+                </label>
+                <span class="error-message" id="termsError"></span>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary btn-block" id="submitBtn" style="background-color: #3498db;">
+                Create Account
+            </button>
+
+            <div class="auth-footer">
+                Already have an account? <a href="login.html" style="color: #3498db;">Login here</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Toast Notification Container -->
+<div id="toast-container"></div>
+
+<!-- Scripts -->
+<script>
+    // JavaScript for Flying Expenses Animation
+    const flyingExpensesContainerSignup = document.getElementById('flyingExpensesSignup');
+    const iconList = ['$', '🧾', '💵', '💸']; // Icons for money/receipts
+
+    function createExpenseIcon() {
+        const icon = document.createElement('span');
+        icon.classList.add('expense-icon');
+        icon.textContent = iconList[Math.floor(Math.random() * iconList.length)];
+
+        // Random positioning and size
+        icon.style.left = `${Math.random() * 100}vw`;
+        icon.style.top = `${100 + Math.random() * 50}vh`; // Start below the screen
+        icon.style.animationDuration = `${10 + Math.random() * 10}s`;
+        icon.style.animationDelay = `${Math.random() * 5}s`;
+        icon.style.fontSize = `${15 + Math.random() * 20}px`;
+
+        flyingExpensesContainerSignup.appendChild(icon);
+
+        // Clean up old icons to prevent performance issues
+        setTimeout(() => {
+            icon.remove();
+        }, 20000); // Remove after 20 seconds (well after animation finishes)
+    }
+
+    // Generate a new icon every 500ms
+    setInterval(createExpenseIcon, 500);
+
+    // Add code to ensure one icon is created immediately
+    createExpenseIcon();
+</script>
+<script src="js/utils.js"></script>
+<script src="js/api.js"></script>
+<script src="js/validation.js"></script>
+<script src="js/notification.js"></script>
+<script src="js/signup.js"></script>
+</body>
+</html>

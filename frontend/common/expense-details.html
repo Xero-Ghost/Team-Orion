@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Expense Details - Expense Management System">
+    <title>Expense Details - Expense Management</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/forms.css">
+    <link rel="stylesheet" href="../css/modals.css">
+</head>
+<body>
+<!-- Header will be built by app.js -->
+<header id="main-header" class="header"></header>
+
+<!-- Sidebar will be built by sidebar.js -->
+<aside id="sidebar" class="sidebar"></aside>
+
+<!-- Main Content -->
+<main id="main-content" class="main-content">
+    <section class="content-section active">
+        <div class="section-header">
+            <h1>Expense Details</h1>
+            <!-- Action buttons are dynamically shown/hidden by expense-details.js based on user role and expense status -->
+            <div class="action-buttons" id="actionButtonsContainer">
+                <button class="btn btn-success hidden" id="approveBtn">Approve</button>
+                <button class="btn btn-danger hidden" id="rejectBtn">Reject</button>
+                <button class="btn btn-primary hidden" id="editBtn">Edit</button>
+                <button class="btn btn-secondary hidden" id="resubmitBtn">Resubmit</button>
+                <button class="btn btn-primary hidden" id="overrideBtn">Override Approval</button>
+            </div>
+        </div>
+
+        <div class="details-grid">
+            <!-- Left Column: Details -->
+            <div class="details-main">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Expense Information</h3>
+                        <span class="badge" id="statusBadge">Loading...</span>
+                    </div>
+                    <div class="card-body">
+                        <ul class="details-list">
+                            <li><strong>Expense ID:</strong> <span id="expenseId">Loading...</span></li>
+                            <li><strong>Submission Date:</strong> <span id="submissionDate">Loading...</span></li>
+                            <li><strong>Employee:</strong> <span id="employeeName">Loading...</span> (<span id="employeeDept">N/A</span>)</li>
+                            <li><strong>Amount:</strong> <span id="expenseAmount">Loading...</span></li>
+                            <li><strong>Category:</strong> <span id="expenseCategory">Loading...</span></li>
+                            <li class="full-width"><strong>Description:</strong> <p id="expenseDescription" class="mt-sm">Loading...</p></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Receipts</h3>
+                    </div>
+                    <div class="card-body" id="receiptsContainer">
+                        <p class="text-gray-500">Loading receipts...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Timeline & Comments -->
+            <div class="details-side">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Approval Timeline</h3>
+                    </div>
+                    <div class="card-body" id="timelineContainer">
+                        <p class="text-gray-500">Loading timeline...</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Comments</h3>
+                    </div>
+                    <div class="card-body" id="commentsContainer">
+                        <!-- Comments and add comment box will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Modals Container -->
+<div id="modal-container"></div>
+
+<!-- Toast Notifications -->
+<div id="toast-container"></div>
+
+<!-- UPDATED: Scripts for dynamic sidebar and page logic -->
+<script src="../js/utils.js"></script>
+<script src="../js/storage.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/sidebar.js"></script> <!-- The new smart sidebar -->
+<script src="../js/app.js"></script> <!-- Initializes header and sidebar -->
+<script src="../js/modal.js"></script>
+<script src="../js/notification.js"></script>
+<script src="../js/expense-details.js"></script> <!-- Page-specific script -->
+</body>
+</html>

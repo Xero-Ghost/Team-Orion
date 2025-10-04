@@ -1,0 +1,254 @@
+/* Data Table Styles */
+
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    font-size: var(--font-size-sm);
+}
+
+.data-table thead {
+    background-color: var(--gray-50);
+    border-bottom: 2px solid var(--gray-200);
+}
+
+.data-table th {
+    padding: var(--spacing-md);
+    text-align: left;
+    font-weight: 600;
+    color: var(--gray-700);
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+}
+
+.data-table th:hover {
+    background-color: var(--gray-100);
+}
+
+.data-table th.sortable::after {
+    content: '⇅';
+    margin-left: var(--spacing-xs);
+    color: var(--gray-400);
+    font-size: var(--font-size-xs);
+}
+
+.data-table th.sort-asc::after {
+    content: '↑';
+    color: var(--primary-color);
+}
+
+.data-table th.sort-desc::after {
+    content: '↓';
+    color: var(--primary-color);
+}
+
+.data-table tbody tr {
+    border-bottom: 1px solid var(--gray-200);
+    transition: background-color var(--transition-fast);
+}
+
+.data-table tbody tr:hover {
+    background-color: var(--gray-50);
+}
+
+.data-table td {
+    padding: var(--spacing-md);
+    color: var(--gray-900);
+    vertical-align: middle;
+}
+
+.data-table td.editable {
+    cursor: pointer;
+    position: relative;
+}
+
+.data-table td.editable:hover {
+    background-color: var(--gray-100);
+}
+
+.data-table td.editing {
+    padding: 0;
+}
+
+.data-table td.editing input,
+.data-table td.editing select {
+    width: 100%;
+    padding: var(--spacing-md);
+    border: 2px solid var(--primary-color);
+    border-radius: 0;
+    font-size: var(--font-size-sm);
+}
+
+.data-table td.editing input:focus,
+.data-table td.editing select:focus {
+    outline: none;
+}
+
+/* Action Buttons in Table */
+.action-buttons {
+    display: flex;
+    gap: var(--spacing-sm);
+    align-items: center;
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--spacing-xs);
+    color: var(--gray-600);
+    transition: all var(--transition-fast);
+    border-radius: var(--radius-sm);
+}
+
+.action-btn:hover {
+    background-color: var(--gray-200);
+    color: var(--gray-900);
+}
+
+.action-btn.view {
+    color: var(--info-color);
+}
+
+.action-btn.view:hover {
+    background-color: var(--info-light);
+}
+
+.action-btn.edit {
+    color: var(--primary-color);
+}
+
+.action-btn.edit:hover {
+    background-color: var(--primary-light);
+}
+
+.action-btn.delete {
+    color: var(--danger-color);
+}
+
+.action-btn.delete:hover {
+    background-color: var(--danger-light);
+}
+
+.action-btn.approve {
+    color: var(--success-color);
+}
+
+.action-btn.approve:hover {
+    background-color: var(--success-light);
+}
+
+/* User Table Specific */
+.user-table td:first-child {
+    font-weight: 500;
+    color: var(--gray-900);
+}
+
+.role-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+}
+
+.role-badge.admin {
+    background-color: #FEE2E2;
+    color: #991B1B;
+}
+
+.role-badge.manager {
+    background-color: #DBEAFE;
+    color: #1E40AF;
+}
+
+.role-badge.employee {
+    background-color: #D1FAE5;
+    color: #065F46;
+}
+
+/* Empty State */
+.table-empty {
+    text-align: center;
+    padding: var(--spacing-3xl);
+    color: var(--gray-500);
+}
+
+.table-empty-icon {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-md);
+}
+
+.table-empty-text {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-sm);
+}
+
+.table-empty-subtext {
+    font-size: var(--font-size-sm);
+    color: var(--gray-400);
+}
+
+/* Loading State */
+.table-loading {
+    text-align: center;
+    padding: var(--spacing-2xl);
+}
+
+/* Responsive Table */
+@media (max-width: 768px) {
+    .data-table {
+        font-size: var(--font-size-xs);
+    }
+    
+    .data-table th,
+    .data-table td {
+        padding: var(--spacing-sm);
+    }
+    
+    /* Hide less important columns on mobile */
+    .data-table .hide-mobile {
+        display: none;
+    }
+    
+    /* Convert table to cards on very small screens */
+    @media (max-width: 480px) {
+        .table-responsive.card-view .data-table thead {
+            display: none;
+        }
+        
+        .table-responsive.card-view .data-table,
+        .table-responsive.card-view .data-table tbody,
+        .table-responsive.card-view .data-table tr,
+        .table-responsive.card-view .data-table td {
+            display: block;
+        }
+        
+        .table-responsive.card-view .data-table tr {
+            margin-bottom: var(--spacing-md);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+        }
+        
+        .table-responsive.card-view .data-table td {
+            padding: var(--spacing-sm) 0;
+            border: none;
+        }
+        
+        .table-responsive.card-view .data-table td::before {
+            content: attr(data-label);
+            font-weight: 600;
+            display: inline-block;
+            width: 40%;
+            margin-right: var(--spacing-sm);
+        }
+    }
+}

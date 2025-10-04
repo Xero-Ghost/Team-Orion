@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Admin Dashboard - Expense Management">
+    <title>Admin Dashboard - Expense Management</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/tables.css">
+</head>
+<body>
+<!-- Header -->
+<header id="main-header" class="header">
+    <div class="header-left">
+        <button class="menu-toggle" id="menuToggle">
+            <span class="hamburger"></span>
+        </button>
+        <h2 class="company-name" id="companyName">Company Name</h2>
+    </div>
+
+    <div class="header-right">
+        <button class="notification-btn" id="notificationBtn">
+            <span class="notification-icon">🔔</span>
+            <span class="notification-badge" id="notificationBadge">3</span>
+        </button>
+
+        <div class="user-profile-dropdown">
+            <button class="user-profile-btn" id="userProfileBtn">
+                <div class="user-avatar">
+                    <span id="userInitials">AD</span>
+                </div>
+                <span class="user-name" id="userName">Admin User</span>
+                <span class="dropdown-arrow">▼</span>
+            </button>
+
+            <div class="dropdown-menu" id="profileDropdown">
+                <a href="../common/settings.html" class="dropdown-item">
+                    <span class="icon">⚙️</span>
+                    Settings
+                </a>
+                <a href="#" class="dropdown-item" id="logoutBtn">
+                    <span class="icon">🚪</span>
+                    Logout
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- UPDATED: The sidebar is now just an empty container for the dynamic script -->
+<aside id="sidebar" class="sidebar"></aside>
+
+<!-- Main Content -->
+<main id="main-content" class="main-content">
+    <!-- Dashboard Section -->
+    <section id="dashboard-section" class="content-section active">
+        <div class="section-header">
+            <h1>Dashboard</h1>
+        </div>
+
+        <!-- Overview Cards -->
+        <div class="dashboard-grid">
+            <div class="stat-card">
+                <div class="stat-icon blue">
+                    <span>👔</span>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-value" id="totalManagers">0</h3>
+                    <p class="stat-label">Total Managers</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon green">
+                    <span>👥</span>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-value" id="totalEmployees">0</h3>
+                    <p class="stat-label">Total Employees</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon yellow">
+                    <span>⏳</span>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-value" id="pendingReimbursement">$0</h3>
+                    <p class="stat-label">Pending Reimbursement</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon purple">
+                    <span>💰</span>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-value" id="monthExpenses">$0</h3>
+                    <p class="stat-label">Expenses This Month</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-grid">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Expense Trends</h3>
+                </div>
+                <div class="card-body">
+                    <canvas id="expenseTrendChart"></canvas>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Category Breakdown</h3>
+                </div>
+                <div class="card-body">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Department Spending</h3>
+            </div>
+            <div class="card-body">
+                <canvas id="departmentChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Expense Summary Tabs -->
+        <div class="card mt-lg">
+            <div class="card-header">
+                <h3 class="card-title">Expense Summary</h3>
+            </div>
+
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="all">All Expenses</button>
+                <button class="tab-btn" data-tab="pending">Pending</button>
+                <button class="tab-btn" data-tab="approved">Approved</button>
+                <button class="tab-btn" data-tab="rejected">Rejected</button>
+            </div>
+
+            <div class="tab-content">
+                <!-- Search and Filter -->
+                <div class="table-controls">
+                    <input type="text" class="search-input" id="expenseSearch" placeholder="Search expenses...">
+
+                    <div class="filter-group">
+                        <select class="filter-select" id="categoryFilter">
+                            <option value="">All Categories</option>
+                            <option value="travel">Travel</option>
+                            <option value="food">Food</option>
+                            <option value="accommodation">Accommodation</option>
+                            <option value="office">Office Supplies</option>
+                        </select>
+
+                        <input type="date" class="filter-select" id="dateFilter">
+                    </div>
+                </div>
+
+                <!-- Expense Table -->
+                <div class="table-responsive">
+                    <table class="data-table" id="expenseTable">
+                        <thead>
+                        <tr>
+                            <th>Employee Name</th>
+                            <th>Amount</th>
+                            <th>Category</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody id="expenseTableBody">
+                        <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination">
+                    <button class="btn btn-sm btn-outline" id="prevPage">Previous</button>
+                    <span class="pagination-info">Page <span id="currentPage">1</span> of <span id="totalPages">1</span></span>
+                    <button class="btn btn-sm btn-outline" id="nextPage">Next</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- User Management Section -->
+    <section id="user-management-section" class="content-section">
+        <div class="section-header">
+            <h1>User Management</h1>
+            <button class="btn btn-primary" id="addUserBtn">
+                <span>➕</span> Add User
+            </button>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <!-- Search Bar -->
+                <div class="table-controls">
+                    <input type="text" class="search-input" id="userSearch" placeholder="Search by name, email, or department...">
+                </div>
+
+                <!-- User Table -->
+                <div class="table-responsive">
+                    <table class="data-table user-table" id="userTable">
+                        <thead>
+                        <tr>
+                            <th>User Name</th>
+                            <th>Role</th>
+                            <th>Manager</th>
+                            <th>Email</th>
+                            <th>Department</th>
+                            <th>Expense Used</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody id="userTableBody">
+                        <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination">
+                    <div class="pagination-info">
+                        Showing <span id="userStart">1</span>-<span id="userEnd">25</span> of <span id="userTotal">0</span> users
+                    </div>
+                    <div class="pagination-controls">
+                        <select class="filter-select" id="rowsPerPage">
+                            <option value="25">25 per page</option>
+                            <option value="50">50 per page</option>
+                            <option value="100">100 per page</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Approval Rules Section -->
+    <section id="approval-rules-section" class="content-section">
+        <div class="section-header">
+            <h1>Approval Rules</h1>
+            <button class="btn btn-primary" id="createRuleBtn">
+                <span>➕</span> Create New Rule
+            </button>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <p class="text-gray-600">Approval rules configuration will be loaded here.</p>
+                <a href="approval-flow.html" class="btn btn-primary mt-md">Configure Approval Flow</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reports Section -->
+    <section id="reports-section" class="content-section">
+        <div class="section-header">
+            <h1>Reports & Analytics</h1>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <p class="text-gray-600">Reports and analytics will be available here.</p>
+                <a href="reports.html" class="btn btn-primary mt-md">View Reports</a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Add User Modal -->
+<div id="modal-container"></div>
+
+<!-- Toast Notifications -->
+<div id="toast-container"></div>
+
+<!-- UPDATED: Script order changed and sidebar.js added -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="../js/utils.js"></script>
+<script src="../js/storage.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/sidebar.js"></script> <!-- The new smart sidebar -->
+<script src="../js/app.js"></script> <!-- Initializes header and sidebar -->
+<script src="../js/modal.js"></script>
+<script src="../js/notification.js"></script>
+<script src="../js/chart-handler.js"></script>
+<script src="../js/admin-dashboard.js"></script>
+</body>
+</html>

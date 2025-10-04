@@ -1,0 +1,88 @@
+/* Responsive Media Queries */
+
+/* Tablet: 768px and up */
+@media (min-width: 768px) {
+    body {
+        /* Re-establish grid for larger screens if it was changed for mobile */
+        grid-template-columns: var(--sidebar-width) 1fr;
+        grid-template-areas:
+            "header header"
+            "sidebar main";
+    }
+
+    .sidebar {
+        position: static;
+        left: 0;
+        height: auto;
+    }
+
+    .menu-toggle {
+        display: none;
+    }
+
+    .main-content {
+        padding: var(--spacing-xl);
+    }
+    
+    .table-controls {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .pagination {
+        flex-direction: row;
+        gap: 0;
+        align-items: center;
+    }
+
+    .user-name {
+        display: inline;
+    }
+}
+
+/* Desktop: 1024px and up */
+@media (min-width: 1024px) {
+    .dashboard-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .charts-grid {
+        grid-template-columns: 2fr 1fr;
+    }
+}
+
+/* Large Desktop: 1280px and up */
+@media (min-width: 1280px) {
+    .container {
+        max-width: 1400px;
+    }
+}
+
+/* Mobile-first overrides for small screens (already in dashboard.css but good to consolidate) */
+@media (max-width: 767px) {
+    body {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "header"
+            "main";
+    }
+    
+    .menu-toggle {
+        display: block;
+    }
+    
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: var(--header-height);
+        height: calc(100vh - var(--header-height));
+        width: 260px; /* Fixed width when shown */
+        z-index: var(--z-fixed);
+        transition: left var(--transition-base);
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .sidebar.show {
+        left: 0;
+    }
+}

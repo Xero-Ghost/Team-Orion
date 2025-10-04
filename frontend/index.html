@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Welcome to the Expense Management System. Simplify your company's expense process with automated approvals and effortless submission.">
+    <title>Expense Management System | Home</title>
+    <style>
+        /* Base Styling & Theme Variables */
+        :root {
+            --primary-color: #3498db; /* Light Blue, matching login/signup theme */
+            --secondary-color: #2c3e50; /* Dark Blue/Gray, matching header/footer */
+            --accent-color: #2ecc71; /* Green, for CTA */
+            --background-color: #f4f7f9;
+            --text-color: #333;
+            --light-text-color: white;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        .section-title {
+            font-size: 2.5em;
+            margin-bottom: 50px;
+            color: var(--secondary-color);
+            font-weight: 700;
+        }
+
+        .btn {
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            transition: all 0.3s ease-in-out;
+            display: inline-block;
+            text-align: center;
+            border: 1px solid transparent;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--light-text-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        /* Header Styling */
+        .header {
+            background-color: var(--secondary-color);
+            color: var(--light-text-color);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header .logo a {
+            font-size: 1.75em;
+            font-weight: 800;
+            text-decoration: none;
+            color: var(--light-text-color);
+            transition: color 0.3s;
+        }
+
+        .header .logo a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--light-text-color);
+            text-decoration: none;
+            padding: 5px 0;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .auth-buttons .btn {
+            padding: 8px 18px;
+            font-size: 0.9em;
+        }
+
+        .auth-buttons .btn-login {
+            background-color: transparent;
+            color: var(--light-text-color);
+            border-color: var(--light-text-color);
+        }
+
+        .auth-buttons .btn-login:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        /* Hero Section Styling */
+        .hero {
+            background-color: var(--primary-color);
+            color: var(--light-text-color);
+            padding: 100px 5%;
+            text-align: center;
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+            animation: fadeIn 1s ease-out;
+        }
+
+        .hero h1 {
+            font-size: clamp(2em, 5vw, 3.8em);
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .hero p {
+            font-size: clamp(1em, 2vw, 1.3em);
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero .btn-cta {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            padding: 15px 35px;
+            font-size: 1.1em;
+        }
+
+        .hero .btn-cta:hover {
+            background-color: #27ae60;
+            border-color: #27ae60;
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4);
+        }
+
+        /* Features Section Styling (2x2 Grid) */
+        .features {
+            padding: 80px 5%;
+            text-align: center;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            text-align: left;
+        }
+        
+        @media (max-width: 768px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+
+        .feature-card {
+            background-color: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            border-top: 5px solid var(--primary-color);
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s;
+        }
+
+        .feature-card h3 {
+            color: var(--secondary-color);
+            margin-top: 10px;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .feature-card p {
+            font-size: 1em;
+            color: #555;
+        }
+
+        /* Customer Reviews/Carousel Section */
+        .reviews {
+            background-color: #ecf0f1;
+            padding: 80px 5%;
+            text-align: center;
+        }
+
+        .carousel-wrapper {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .review-card {
+            min-width: 100%;
+            box-sizing: border-box;
+            background-color: white;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            text-align: center;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.6s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; 
+            min-height: 350px; 
+        }
+
+        .review-card.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .review-card blockquote {
+            font-size: 1.15em;
+            font-style: italic;
+            margin: 0 0 25px 0;
+            color: var(--secondary-color);
+        }
+
+        .reviewer-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: auto; 
+        }
+
+        .reviewer-info .avatar {
+            width: 80px;
+            height: 80px;
+            /* Placeholder: Using placehold.co for image URLs with specific identifiers for variety */
+            background-size: cover;
+            background-position: center;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            border: 3px solid var(--primary-color);
+            overflow: hidden;
+        }
+
+        .reviewer-info .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .reviewer-info .details {
+            line-height: 1.4;
+        }
+
+        .reviewer-info .name {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 1.1em;
+        }
+
+        .reviewer-info .industry {
+            font-size: 0.9em;
+            color: #777;
+        }
+
+        .star-rating {
+            color: #f39c12; 
+            font-size: 1.3em;
+            margin-top: 10px;
+        }
+
+        .carousel-nav {
+            margin-top: 25px;
+        }
+
+        .nav-dot {
+            height: 12px;
+            width: 12px;
+            margin: 0 6px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .nav-dot.active {
+            background-color: var(--primary-color);
+            transform: scale(1.2);
+        }
+        
+        /* About Us Section Styling */
+        .about-us {
+            padding: 80px 5%;
+            background-color: white;
+            text-align: center;
+        }
+
+        .about-us-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .about-us-content p {
+            margin-bottom: 20px;
+            color: #555;
+            font-size: 1.1em;
+        }
+
+        /* Footer Styling */
+        .footer {
+            background-color: var(--secondary-color);
+            color: var(--light-text-color);
+            padding: 40px 5%;
+        }
+
+        .footer-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-section {
+            min-width: 180px;
+        }
+
+        .footer-section h4 {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section ul li a {
+            color: #bdc3c7;
+            text-decoration: none;
+            line-height: 2.2;
+            font-size: 0.95em;
+            transition: color 0.3s;
+        }
+
+        .footer-section ul li a:hover {
+            color: var(--light-text-color);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            font-size: 0.9em;
+            color: #bdc3c7;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                padding-top: 20px;
+                padding-bottom: 20px;
+            }
+
+            .nav-links {
+                margin: 15px 0;
+                gap: 15px;
+            }
+
+            .auth-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .auth-buttons .btn {
+                flex-grow: 1;
+            }
+            
+            .footer-grid {
+                justify-content: center;
+                text-align: center;
+            }
+            
+            .footer-section {
+                min-width: 45%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-section {
+                min-width: 100%;
+            }
+
+            .review-card {
+                 padding: 30px 20px;
+            }
+        }
+
+        /* Animation Keyframes */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo">
+            <a href="index.html">ExpenseSync</a>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#reviews">Testimonials</a></li>
+                <li><a href="#about-us">About Us</a></li>
+            </ul>
+        </nav>
+        <div class="auth-buttons">
+            <a href="login.html" class="btn btn-login">Login</a>
+            <a href="signup.html" class="btn btn-primary">Sign Up</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Automate Your Finance. Reclaim Your Time.</h1>
+            <p>ExpenseSync provides a seamless, transparent, and compliant expense management solution for modern companies.</p>
+            <a href="signup.html" class="btn btn-cta">Start Free Trial Now</a>
+        </section>
+
+        <!-- Features Section (2x2 Layout) -->
+        <section id="features" class="features container">
+            <h2 class="section-title">Effortless Core Features</h2>
+            <div class="features-grid">
+                
+                <div class="feature-card">
+                    <h3>Multi-Level Approval Workflow</h3>
+                    <p>Easily define complex approval sequences involving **multiple managers** or departments (Finance, Director), ensuring complete accountability at every step.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>Flexible Conditional Rules</h3>
+                    <p>Configure dynamic rules, such as **percentage approval thresholds** (e.g., 60% of approvers) or mandates for specific roles (e.g., CFO approval for high-value claims).</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>Comprehensive Role Management</h3>
+                    <p>Assign and manage distinct roles for **Admin**, **Manager**, and **Employee**, with permissions precisely tailored to their responsibilities within the expense lifecycle.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>Global Currency Support</h3>
+                    <p>Employees can submit claims in any currency. The system automatically handles conversions and displays amounts in the company's designated default currency for review.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Customer Reviews Section (Carousel with Detail) -->
+        <section id="reviews" class="reviews">
+            <h2 class="section-title" id="reviews-heading">Trusted by Industry Leaders</h2>
+            <div class="carousel-wrapper">
+                <div class="carousel-track" id="carouselTrack">
+                    
+                    <!-- Review 1 -->
+                    <div class="review-card">
+                        <blockquote>&ldquo;Implementation was a breeze, and the conditional approval flows saved our finance team hours every week. A massive step up in transparency.&rdquo;</blockquote>
+                        <div class="reviewer-info">
+                            <!-- Placeholder image for David K. -->
+                            <div class="avatar">
+                                <img src="https://placehold.co/80x80/2c3e50/ffffff?text=User1" alt="David K. avatar" onerror="this.onerror=null; this.src='https://placehold.co/80x80/2c3e50/ffffff?text=DK';" />
+                            </div>
+                            <div class="details">
+                                <div class="name">David K.</div>
+                                <div class="industry">CFO, TechNova Solutions</div>
+                                <div class="star-rating">★★★★★</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Review 2 -->
+                    <div class="review-card">
+                        <blockquote>&ldquo;The simple employee submission process and quick manager approval dashboard have completely streamlined our operations. Highly recommend for any fast-growing team.&rdquo;</blockquote>
+                        <div class="reviewer-info">
+                            <!-- Placeholder image for Sarah L. -->
+                            <div class="avatar">
+                                <img src="https://placehold.co/80x80/3498db/ffffff?text=User2" alt="Sarah L. avatar" onerror="this.onerror=null; this.src='https://placehold.co/80x80/3498db/ffffff?text=SL';" />
+                            </div>
+                            <div class="details">
+                                <div class="name">Sarah L.</div>
+                                <div class="industry">HR Director, Global Connect</div>
+                                <div class="star-rating">★★★★☆</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Review 3 -->
+                    <div class="review-card">
+                        <blockquote>&ldquo;The multi-level approval chain works flawlessly. It scaled perfectly as we grew our team and added more regional directors across the country.&rdquo;</blockquote>
+                        <div class="reviewer-info">
+                            <!-- Placeholder image for Mike P. -->
+                            <div class="avatar">
+                                <img src="https://placehold.co/80x80/2ecc71/ffffff?text=User3" alt="Mike P. avatar" onerror="this.onerror=null; this.src='https://placehold.co/80x80/2ecc71/ffffff?text=MP';" />
+                            </div>
+                            <div class="details">
+                                <div class="name">Mike P.</div>
+                                <div class="industry">Operations Manager, Apex Group</div>
+                                <div class="star-rating">★★★★★</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review 4 (New Review) -->
+                    <div class="review-card">
+                        <blockquote>&ldquo;ExpenseSync’s currency handling is fantastic for our international team. The automatic conversion saves us manual reconciliation headaches every month.&rdquo;</blockquote>
+                        <div class="reviewer-info">
+                            <!-- Placeholder image for Jessica A. -->
+                            <div class="avatar">
+                                <img src="https://placehold.co/80x80/e74c3c/ffffff?text=User4" alt="Jessica A. avatar" onerror="this.onerror=null; this.src='https://placehold.co/80x80/e74c3c/ffffff?text=JA';" />
+                            </div>
+                            <div class="details">
+                                <div class="name">Jessica A.</div>
+                                <div class="industry">VP of Finance, MetroCorp</div>
+                                <div class="star-rating">★★★★★</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review 5 (New Review) -->
+                    <div class="review-card">
+                        <blockquote>&ldquo;The role-based permissions are precise. Our managers only see what they need to approve, which keeps the system fast and focused for everyone.&rdquo;</blockquote>
+                        <div class="reviewer-info">
+                            <!-- Placeholder image for Thomas M. -->
+                            <div class="avatar">
+                                <img src="https://placehold.co/80x80/f39c12/ffffff?text=User5" alt="Thomas M. avatar" onerror="this.onerror=null; this.src='https://placehold.co/80x80/f39c12/ffffff?text=TM';" />
+                            </div>
+                            <div class="details">
+                                <div class="name">Thomas M.</div>
+                                <div class="industry">CEO, FinServe Capital</div>
+                                <div class="star-rating">★★★★★</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="carousel-nav" id="carouselNav">
+                <!-- Navigation dots will be added by JavaScript -->
+            </div>
+        </section>
+        
+        <!-- About Us Section -->
+        <section id="about-us" class="about-us">
+            <div class="about-us-content container">
+                <h2 class="section-title">Our Journey to ExpenseSync</h2>
+                
+                <p>ExpenseSync began in 2020 when a small team of finance experts and software engineers grew tired of manual, error-prone expense reporting processes. Our vision was simple: create an expense management platform that is **effortless for employees** and provides **total control and transparency for finance teams**. Through rigorous development focused on automated, multi-level approvals and robust global currency support, we launched ExpenseSync in 2023. Today, we stand as a testament to the belief that modern business expenses should be managed with speed, security, and simplicity, giving companies back invaluable time and resources.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="footer-grid container">
+            
+            <div class="footer-section">
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#reviews">Testimonials</a></li>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="signup.html">Sign Up</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Contact Support</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">System Status</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Security</a></li>
+                </ul>
+            </div>
+            
+        </div>
+        <div class="footer-bottom container">
+            <p>&copy; 2025 ExpenseSync. All rights reserved. Built with simplicity and power.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const track = document.getElementById('carouselTrack');
+            const reviews = Array.from(track.children);
+            const nav = document.getElementById('carouselNav');
+            let currentIndex = 0;
+            const reviewInterval = 5000; // 5 seconds for auto-slide
+
+            // 1. Initialize Navigation Dots
+            reviews.forEach((review, index) => {
+                const dot = document.createElement('span');
+                dot.classList.add('nav-dot');
+                if (index === 0) {
+                    dot.classList.add('active');
+                    review.classList.add('active');
+                }
+                dot.addEventListener('click', () => {
+                    clearInterval(autoSlide);
+                    goToSlide(index);
+                    autoSlide = setInterval(nextSlide, reviewInterval);
+                });
+                nav.appendChild(dot);
+            });
+
+            const dots = Array.from(nav.children);
+
+            // 2. Core Slide Function
+            const goToSlide = (index) => {
+                // Ensure index is within bounds
+                if (index < 0 || index >= reviews.length) {
+                    return;
+                }
+                
+                currentIndex = index;
+                const offset = -currentIndex * 100;
+                track.style.transform = `translateX(${offset}%)`;
+
+                // Update active classes for reviews (opacity/scale animation)
+                reviews.forEach((review, i) => {
+                    if (i === currentIndex) {
+                        review.classList.add('active');
+                    } else {
+                        review.classList.remove('active');
+                    }
+                });
+
+                // Update active classes for dots
+                dots.forEach((dot, i) => {
+                    if (i === currentIndex) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            };
+
+            // 3. Next Slide Function (used for auto-slide)
+            const nextSlide = () => {
+                let newIndex = (currentIndex + 1) % reviews.length;
+                goToSlide(newIndex);
+            };
+
+            // 4. Start Auto Sliding
+            let autoSlide = setInterval(nextSlide, reviewInterval);
+
+            // Initial setup to ensure the first card is visible and active
+            goToSlide(0);
+        });
+    </script>
+
+</body>
+</html>
